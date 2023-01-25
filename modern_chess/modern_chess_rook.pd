@@ -1,0 +1,9 @@
+modern_chess_rook
+[Config]
+[Variables]
+moves = 0
+[Moves]
+ITER s0,1 7 ATK f0,0 SET s.moves += 1
+ITER s1,0 7 ATK f0,0 SET s.moves += 1
+ITER s0,-1 7 ATK f0,0 SET s.moves += 1
+ITER s-1,0 7 ATK f0,0 SET s.moves += 1

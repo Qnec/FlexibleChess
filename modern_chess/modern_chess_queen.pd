@@ -1,0 +1,12 @@
+modern_chess_queen.pd
+[Config]
+[Variables]
+[Moves]
+ITER s1,1 7 ATK f0,0
+ITER s1,-1 7 ATK f0,0
+ITER s-1,-1 7 ATK f0,0
+ITER s-1,1 7 ATK f0,0
+ITER s0,1 7 ATK f0,0
+ITER s1,0 7 ATK f0,0
+ITER s0,-1 7 ATK f0,0
+ITER s-1,0 7 ATK f0,0

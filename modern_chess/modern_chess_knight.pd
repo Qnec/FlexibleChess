@@ -1,0 +1,12 @@
+modern_chess_knight
+[Config]
+[Variables]
+[Moves]
+JUMP s-1,2 ATK f0,0
+JUMP s1,2 ATK f0,0
+JUMP s2,1 ATK f0,0
+JUMP s2,-1 ATK f0,0
+JUMP s1,-2 ATK f0,0
+JUMP s-1,-2 ATK f0,0
+JUMP s-2,-1 ATK f0,0
+JUMP s-2,1 ATK f0,0

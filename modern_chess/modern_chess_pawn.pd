@@ -1,0 +1,12 @@
+modern_chess_pawn
+[Config]
+promote g[0,7],7 modern_chess_knight modern_chess_bishop modern_chess_rook modern_chess_queen
+[Variables]
+dashed = 0
+moves = 0
+[Moves]
+JUMP s0,1 SET s.moves += 1
+JUMP s0,2 VMC s.dashed == 0 SET s.moves += 1 SET s.dashed = 1
+JUMP s1,1 ATK f0,0 ACP f0,0 CONT op SET s.moves += 1
+JUMP s-1,1 ATK f0,0 req f0,0 CONT op SET s.moves += 1
+JUMP s1,1 ATK f0,-1 ACP f0,0 CONTONLY modern_chess_pawn VMC s.dashed == 1 VMC s.moves == 1 SET s.moves += 1
