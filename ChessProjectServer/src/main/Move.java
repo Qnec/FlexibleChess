@@ -1,10 +1,10 @@
 package main;
 
-import java.util.Arrays;
 import java.util.ArrayList;
 
 import main.ActionTypes.Action;
 import main.MovementTypes.Movement;
+import main.Position.RelativeTo;
 import main.RequirementTypes.Requirement;
 
 public class Move {
@@ -81,5 +81,20 @@ public class Move {
     @Override
     public String toString() {
         return this.movements.length + " " + this.requirements.length + " " + this.actions.length;
+    }
+
+    public ArrayList<MoveReference> getPossibleMoveReferences(Game game, Piece piece, int index) {
+        ArrayList<MoveReference> output = new ArrayList<MoveReference>();
+        for(Movement movement : this.movements) {
+            for(Position p : movement.getPossibleMovementPositions()) {
+                output.add(new MoveReference(new Position(0,0, RelativeTo.START), p, piece.uuid, index));
+            }
+        }
+        return output;
+    }
+
+    public ArrayList<MoveReference> getValidMoveReferences(Game game, Piece piece, int index) {
+        ArrayList<MoveReference> output = new ArrayList<MoveReference>();
+        return output;
     }
 }

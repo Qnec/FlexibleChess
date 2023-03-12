@@ -6,15 +6,32 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import main.Position.RelativeTo;
+
 public class GameType {
-    private static HashMap<String, GameType> gameTypes;
-    private HashMap<String, PieceType> pieceTypes;
-    private String gameID;
-    private String pCount;
-    private String nMoves;
-    private String perSideMoveModificationBehav;
-    private String royaltyBehav;
-    private String winBehav;
+    enum MoveModificationBehaviorType {
+        FLIP
+    }
+
+    enum RoyaltyBehavior {
+        CHECK
+    }
+
+    enum WinBehavior {
+        EXTINCTION
+    }
+
+
+    private static HashMap<String, GameType> gameTypes = new HashMap<String, GameType>();
+    private HashMap<String, PieceType> pieceTypes = new HashMap<String, PieceType>();
+    private HashMap<String, ArrayList<Area>> pieceStartingPositions = new HashMap<String, ArrayList<Area>>();
+    public String gameID;
+    public Position dimensions;
+    public int pCount;
+    public int nMoves;
+    public MoveModificationBehaviorType perSideMoveModificationBehav;
+    public RoyaltyBehavior royaltyBehav;
+    public WinBehavior winBehav;
     //private 
     public GameType(String gameFolderStr) {
         Path gameFolderPath = Paths.get(gameFolderStr);
@@ -31,8 +48,10 @@ public class GameType {
             }
         }
         //ArrayList<PieceType> pieces = new ArrayList<PieceType>();
+        //this.pieceTypes = new HashMap<String, PieceType>();
         for(File file : pieceFileArray) {
             PieceType cpt = new PieceType(ConfigFile.parseConfigFile(file));
+            System.out.println(cpt);
             this.pieceTypes.put(cpt.getPieceID(), cpt);
         }
         //this.pieceTypes = pieces.toArray(new PieceType[0]);
@@ -49,32 +68,54 @@ public class GameType {
                     String[] line = section[i].split(" ");
                     if(line.length <= 2) {
                         if(line[0].equals("count")) {
-                            this.pCount= line[1];
+                            this.pCount=Integer.parseInt(line[1]);
                         } else if(line[0].equals("moves")) {
-                            this.nMoves = line[1];
+                            this.nMoves=Integer.parseInt(line[1]);
                         }
                     }
-                }    
+                }
+                break;
                 case "PIECES":
                 for(int i = 0; i < section.length; i++) {
                     String[] line = section[i].split(" ");
                     if(line.length <= 2) {
                         if(line[0].equals("perSideMoveModification")) {
-                            this.perSideMoveModificationBehav = line[1];
+                            this.perSideMoveModificationBehav = MoveModificationBehaviorType.valueOf(line[1]);
                         }
                     }
                 }
+                break;
                 case "GAME":
                 for(int i = 0; i < section.length; i++) {
                     String[] line = section[i].split(" ");
-                    if(line.length <= 2) {
+                    if(line.length == 2) {
                         if(line[0].equals("royalty")) {
-                            this.royaltyBehav = line[1];
+                            this.royaltyBehav = RoyaltyBehavior.valueOf(line[1]);
                         } else if(line[0].equals("win")) {
-                            this.winBehav = line[1];
+                            this.winBehav = WinBehavior.valueOf(line[1]);
+                        } else if(line[0].equals("dimensions")) {
+                            this.dimensions = new Position(line[1], RelativeTo.GAME);
                         }
                     }
                 }
+                break;
+                case "SETUP":
+                for(int i = 0; i < section.length; i++) {
+                    //System.out.println(section[i]);
+                    String[] line = section[i].split(" ");
+                    if(line.length == 2) {
+                        //System.out.println(line[1]);
+                        if(!this.pieceStartingPositions.containsKey(line[0])) {
+                            this.pieceStartingPositions.put(line[0], new ArrayList<Area>());
+                        }
+                        //System.out.println(line[0]);
+                        Area a = new Area(line[1]);
+                        //System.out.println(line[1]);
+                        //System.out.println(a);
+                        this.pieceStartingPositions.get(line[0]).add(a);
+                    }
+                }
+                break;
                 default:
                 break;
             }
@@ -84,7 +125,7 @@ public class GameType {
 
     @Override
     public String toString() {
-        return this.pieceTypes.size() + ", " + this.gameID + ", " + this.nMoves + ", " + this.pCount + ", " + this.perSideMoveModificationBehav + ", " + this.royaltyBehav + ", " + this.winBehav;
+        return this.dimensions + ", " + this.pieceStartingPositions.size() + ", " + this.pieceTypes.size() + ", " + this.gameID + ", " + this.nMoves + ", " + this.pCount + ", " + this.perSideMoveModificationBehav + ", " + this.royaltyBehav + ", " + this.winBehav;
     }
 
     public static GameType getGame(String gid) {
@@ -93,5 +134,21 @@ public class GameType {
 
     public PieceType getPiece(String pid) {
         return this.pieceTypes.get(pid);
+    }
+
+    public ArrayList<String> getPieceTypes() {
+        ArrayList<String> pieceTypes = new ArrayList<String>();
+        for(String key : this.pieceTypes.keySet()) {
+            pieceTypes.add(key);
+        }
+        return pieceTypes;
+    }
+
+    public ArrayList<Area> getPieceStartingPositions(String pid) {
+        if(this.pieceStartingPositions.containsKey(pid)) {
+            return this.pieceStartingPositions.get(pid);
+        } else {
+            return new ArrayList<Area>();
+        }
     }
 }

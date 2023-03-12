@@ -1,6 +1,8 @@
 package main.MovementTypes;
 
 import main.Position;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 //import java.util.Arrays.copyofrange;
 
@@ -38,4 +40,6 @@ public abstract class Movement {
             return false;
         }
     } 
+
+    public abstract ArrayList<Position> getPossibleMovementPositions();
 }

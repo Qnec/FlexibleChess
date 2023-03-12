@@ -11,6 +11,14 @@ public class Iteration extends Movement {
 
     public Iteration(MovementType type, String[] parameters) {
         super(type, new Position(parameters[0]), (parameters.length >= 2 && parameters[1].equals("interruptible")));
-        this.iterations = Integer.parseInt(parameters[2]);
+        /*for(String i : parameters) {
+            System.out.println(i);
+        }*/
+        if(parameters.length > 2) {
+            this.iterations = Integer.parseInt(parameters[2]);
+        } else {
+            this.iterations = Integer.parseInt(parameters[1]);
+        }
+
     }
 }

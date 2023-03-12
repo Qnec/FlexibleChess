@@ -17,6 +17,9 @@ public class ConfigFile {
         String currentSection = "";
         for(int i = 0; i < contents.length; i++) {
             String currentLine = contents[i];
+            if(currentLine.charAt(0) == '#') {
+                continue;
+            }
             if(currentLine.charAt(0) == '[' && currentLine.charAt(currentLine.length()-1) == ']') {
                 currentSection = currentLine.substring(1,currentLine.length()-1).toUpperCase();
                 continue;

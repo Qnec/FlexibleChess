@@ -7,13 +7,13 @@ public class Combination extends Action{
     private Position finalPosition;
     public Combination(ActionType type, String[] parameters) {
         super(type);
-        if(parameters.length != 1 || parameters.length != 3){
-            throw new Error("unsupported arguments for combi");
-        } else if(parameters[1].equals("to")) {
+        /*for(String i : parameters) {
+            System.out.println(i);
+        }*/
+        if(parameters.length != 2){
             throw new Error("unsupported arguments for combi");
         }
-        
         this.initialPosition = new Position(parameters[0]);
-        this.finalPosition = new Position(parameters[2]);
+        this.finalPosition = new Position(parameters[1]);
     }
 }

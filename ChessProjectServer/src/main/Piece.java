@@ -1,20 +1,54 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Piece {
-    private String gt;
-    private String pt;
+    private String gid;
+    public String pid;
+    private GameType gt;
+    private PieceType pt;
     private Position p;
     private int playerNum;
-    private HashMap<Variable, Integer> variables = new HashMap<Variable, Integer>();
+    private HashMap<String, Variable> variables = new HashMap<>();
+    public final UUID uuid;
+
     public Piece(String gt, String pt, int pNum, Position p) {
-        this.gt = gt;
-        this.pt = pt;
+        this.uuid = UUID.randomUUID();
+        this.gid = gt;
+        this.pid = pt;
         this.playerNum = pNum;
         this.p = p;
-        for(Variable v : GameType.getGame(this.gt).getPiece(this.pt).variables) {
-            variables.put(new Variable(v.scope, v.variableName), v.value);
+        this.gt = GameType.getGame(this.gid);
+        this.pt = this.gt.getPiece(this.pid);
+        for(Variable v : this.pt.variables) {
+            variables.put(v.variableName, new Variable(v.scope, v.variableName, v.value));
         }
+    }
+
+    public Position getPosition() {
+        return this.p;
+    }
+
+    public Variable getVariable(String variableName) {
+        return this.variables.get(variableName);
+    }
+
+    public int getPlayer() {
+        return this.playerNum;
+    }
+
+    public void setPosition(Position p) {
+        this.p = p;
+    }
+
+    public ArrayList<MoveReference> getAvailableMoves(Game game) {
+        ArrayList<MoveReference> output = new ArrayList<MoveReference>();
+        for(int i = 0; i < this.pt.moves.length; i++) {
+            Move move = this.pt.moves[i];
+            output.addAll(move.getValidMoveReferences(game, this, i));
+        }
+        return output;
     }
 }

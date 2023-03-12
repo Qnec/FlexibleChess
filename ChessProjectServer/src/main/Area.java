@@ -1,4 +1,7 @@
 package main;
+
+import java.util.ArrayList;
+
 public class Area {
     private Range x, y;
     private Position.RelativeTo relativeTo;
@@ -13,13 +16,15 @@ public class Area {
         Range r1, r2;
         //String relativePosition = area.substring(0, 1);
         //area = area.substring(1);
+        int splitIndex;
         if(area.charAt(0) == '[') {
+            splitIndex = area.indexOf(',', area.indexOf(',')+1);
             String[] rangeStr = area.substring(1).split("]")[0].split(",");
             r1 = new Range(Integer.parseInt(rangeStr[0]), Integer.parseInt(rangeStr[1]));
         } else {
+            splitIndex = area.indexOf(',');
             r1 = new Range(Integer.parseInt(area.split(",")[0]));
         }
-        int splitIndex = area.indexOf(area.indexOf(','), ',');
         String secondRange = area.substring(splitIndex+1);
         if(secondRange.charAt(0) == '[') {
             String[] rangeStr = secondRange.substring(1).split("]")[0].split(",");
@@ -27,8 +32,22 @@ public class Area {
         } else {
             r2 = new Range(Integer.parseInt(secondRange.split(",")[0]));
         }
+        //System.out.println(area);
+        //System.out.println(secondRange);
+        //System.out.println(r1);
+        //System.out.println(r2);
         this.x = r1;
         this.y = r2;
+    }
+
+    public ArrayList<Position> getEncompassingPositions() {
+        ArrayList<Position> positions = new ArrayList<Position>();
+        for(int x = this.x.getMin(); x <= this.x.getMax(); x++) {
+            for(int y = this.y.getMin(); y <= this.y.getMax(); y++) {
+                positions.add(new Position(x,y));
+            }
+        }
+        return positions;
     }
 
     public boolean contains(Position p) {

@@ -1,7 +1,10 @@
 package main.RequirementTypes;
 
-import java.net.Authenticator.RequestorType;
 import java.util.Arrays;
+
+import main.Game;
+import main.Move;
+import main.Piece;
 
 public abstract class Requirement {
     public enum RequirementType {
@@ -36,5 +39,7 @@ public abstract class Requirement {
         } catch (IllegalArgumentException e) {
             return false;
         }
-    } 
+    }
+
+    public abstract boolean isMet(Game game, Piece piece, Move move);
 }

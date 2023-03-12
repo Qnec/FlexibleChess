@@ -43,4 +43,29 @@ public class ConditionOperator {
                 throw new Error("Unsupported comparison operator");
         }
     }
+
+    public static boolean evaluate(OperatorType operator, int arg1, int arg2) {
+        switch(operator) {
+            case LESSTHAN:
+            return arg1 < arg2;
+            case GREATERTHAN:
+            return arg1 > arg2;
+            case LESSTHANOREQUALTO:
+            return arg1 <= arg2;
+            case GREATERTHANOREQUALTO:
+            return arg1 >= arg2;
+            case EQUALTO:
+            return arg1 == arg2;
+            case NOTEQUALTO:
+            return arg1 != arg2;
+            case AND:
+            return (arg1 & arg2) > 0;
+            case OR:
+            return (arg1 | arg2) > 0;
+            case XOR:
+            return (arg1 ^ arg2) > 0;
+            default:
+            return false;
+        }
+    }
 }

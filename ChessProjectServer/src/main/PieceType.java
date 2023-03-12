@@ -11,12 +11,6 @@ public class PieceType {
     public final Move[] moves;
     public final HashMap<Area, String[]> promotionAreas = new HashMap<Area, String[]>();
 
-    private enum PieceTypeFileSections {
-        CONFIG,
-        VARIABLES,
-        MOVES,
-        NONE
-    };
     public PieceType(ConfigFile conf) {
         List<Variable> varArray = new ArrayList<Variable>();
         List<Move> movesArray = new ArrayList<Move>();
@@ -26,17 +20,17 @@ public class PieceType {
                 case "":
                 this.pieceID = conf.configuration.get(key)[0];
                 break;
-                case "Config":
+                case "CONFIG":
                 for(String lineStr : conf.configuration.get(key)) {
                     String[] line = lineStr.split(" ");
                     if(line[0].equals("promote") && line.length >= 3) {
                         Area a = new Area(line[1]);
                         String[] to = Arrays.copyOfRange(line, 2, line.length);
                         this.promotionAreas.put(a, to);
-                        System.out.println("promotion");
+                        //System.out.println("promotion");
                     }    
                 }
-                case "Variables":
+                case "VARIABLES":
                 for(String lineStr : conf.configuration.get(key)) {
                     String[] line = lineStr.split(" ");
                     if(line.length == 3) {
@@ -44,8 +38,9 @@ public class PieceType {
                     }
                 }
                 break;
-                case "Moves":
+                case "MOVES":
                 for(String lineStr : conf.configuration.get(key)) {
+                    //System.out.println(lineStr);
                     movesArray.add(Move.parseMove(lineStr));
                 }
                 break;
@@ -74,6 +69,6 @@ public class PieceType {
         private Variable[] variables;
         private Move[] moves;
         private HashMap<Area, String[]> promotionAreas; */
-        return pieceID + ", " + variables.length + ", " + moves.length + ", " + promotionAreas.size();
+        return pieceID + ", " + this.variables.length + ", " + this.moves.length + ", " + this.promotionAreas.size();
     }
 }
