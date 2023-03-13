@@ -55,12 +55,8 @@ public class Piece {
     public Position translatePosition(Position p) {
         switch(p.relativeTo) {
             case START:
-            return p.add(this.start);
             case FINAL:
-            p.relativeTo = RelativeTo.START;
-            return p.add(this.finish);
             case GAME:
-            return p;
             default:
             throw new Error("Unknown position relativeTo type");
         }
