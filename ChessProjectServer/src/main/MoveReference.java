@@ -2,6 +2,8 @@ package main;
 
 import java.util.UUID;
 
+import main.Position.RelativeTo;
+
 public class MoveReference {
     public Position start;
     public Position finish;
@@ -13,5 +15,19 @@ public class MoveReference {
         this.finish = finish;
         this.pieceUUID = pieceUUID;
         this.moveIndex = moveIndex;
+    }
+
+    public Position translatePosition(Position p) {
+        switch(p.relativeTo) {
+            case START:
+            return p.add(this.start);
+            case FINAL:
+            p.relativeTo = RelativeTo.START;
+            return p.add(this.finish);
+            case GAME:
+            return p;
+            default:
+            throw new Error("Unknown position relativeTo type");
+        }
     }
 }

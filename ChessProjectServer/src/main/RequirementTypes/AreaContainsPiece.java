@@ -3,6 +3,7 @@ package main.RequirementTypes;
 import main.Area;
 import main.Game;
 import main.Move;
+import main.MoveReference;
 import main.Piece;
 import main.Position;
 
@@ -23,7 +24,7 @@ public class AreaContainsPiece extends Requirement {
         this.pieceId = parameters[2];
     }
 
-    public boolean isMet(Game game, Piece piece, Move move) {
+    public boolean isMet(Game game, Piece piece, Move move, MoveReference moveReference) {
         boolean output = false;
         switch(this.type) {
             case CONTONLY:

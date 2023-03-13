@@ -1,5 +1,7 @@
 package main.MovementTypes;
 
+import java.util.ArrayList;
+
 import main.Position;
 
 public class Iteration extends Movement {
@@ -20,5 +22,13 @@ public class Iteration extends Movement {
             this.iterations = Integer.parseInt(parameters[1]);
         }
 
+    }
+
+    public ArrayList<Position> getPossibleMovementPositions() {
+        ArrayList<Position> output = new ArrayList<>();
+        for(int i = 0; i < iterations; i++) {
+            output.add(this.relativePosition.scale((double)i));
+        }
+        return output;
     }
 }

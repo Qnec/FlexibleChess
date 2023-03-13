@@ -95,6 +95,18 @@ public class Move {
 
     public ArrayList<MoveReference> getValidMoveReferences(Game game, Piece piece, int index) {
         ArrayList<MoveReference> output = new ArrayList<MoveReference>();
+        for(MoveReference move : this.getPossibleMoveReferences(game, piece, index)) {
+
+        }
         return output;
     }
+
+    public boolean isMoveValid(Game game, Piece piece, Move move, MoveReference moveReference) {
+        for(Requirement requirement : this.requirements) {
+            if(!requirement.isMet(game, piece, move, moveReference)) {
+                return false;
+            }
+        }
+        return true;
+    } 
 }

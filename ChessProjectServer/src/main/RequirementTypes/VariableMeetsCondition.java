@@ -5,6 +5,7 @@ import java.util.HashSet;
 import main.ConditionOperator;
 import main.Game;
 import main.Move;
+import main.MoveReference;
 import main.Piece;
 import main.Variable;
 import main.Variable.VariableScope;
@@ -20,8 +21,14 @@ public class VariableMeetsCondition extends Requirement {
         this.value = Integer.parseInt(parameters[2]);
     }
 
-    public boolean isMet(Game game, Piece piece, Move move) {
-        HashSet<Piece> set = game.getPieces(game.translatePosition(this.variable.variablePositionReference, piece.getPlayer()));
+    public boolean isMet(Game game, Piece piece, Move move, MoveReference moveReference) {
+        HashSet<Piece> set = game.getPieces(
+            game.translatePosition(
+                piece.translatePosition(
+                    moveReference.translatePosition(this.variable.variablePositionReference)
+                    ), piece.getPlayer()
+                )
+            );
         //int value = 0;
         Variable v = new Variable(VariableScope.Piece, "default", 0);
         if(this.variable.scope == VariableScope.Game) {

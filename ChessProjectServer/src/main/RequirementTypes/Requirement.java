@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import main.Game;
 import main.Move;
+import main.MoveReference;
 import main.Piece;
 
 public abstract class Requirement {
@@ -41,5 +42,5 @@ public abstract class Requirement {
         }
     }
 
-    public abstract boolean isMet(Game game, Piece piece, Move move);
+    public abstract boolean isMet(Game game, Piece piece, Move move, MoveReference moveReference);
 }
