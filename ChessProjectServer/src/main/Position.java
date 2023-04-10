@@ -54,7 +54,7 @@ public class Position {
 
     @Override
     public String toString() {
-        return "(" + this.x + "," + this.y + ")";
+        return "((" + this.x + "," + this.y + "), " + this.relativeTo.name() + ")";
     }
 
     public Position add(Position other) {

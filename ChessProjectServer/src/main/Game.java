@@ -1,11 +1,12 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
 public class Game {
-    private HashSet<UUID> usedUUIDs = new HashSet<UUID>();
+    private HashMap<UUID, Piece> pieceByUUID = new HashMap<UUID, Piece>();
     private String gid;
     GameType gt;
     private ArrayList<ArrayList<Piece>> pieces = new ArrayList<ArrayList<Piece>>();
@@ -27,7 +28,7 @@ public class Game {
     }
 
     public boolean addPiece(Piece p) {
-        if(usedUUIDs.contains(p.uuid)) {
+        if(pieceByUUID.containsKey(p.uuid)) {
             return false;
         }
         int player = p.getPlayer();
@@ -46,6 +47,7 @@ public class Game {
     public ArrayList<MoveReference> getAvailableMoves(int pNum) {
         ArrayList<MoveReference> output = new ArrayList<>();
         for(Piece p : pieces.get(pNum)) {
+            System.out.println(p);
             output.addAll(this.getAvailableMoves(pNum, p));
         }
         return output;
@@ -62,6 +64,14 @@ public class Game {
             return this.grid.get(p.x).get(p.y);
 
         }
+    }
+
+    public HashSet<Piece> getAttackables(Position p) {
+        if(p.x < 0 || p.x >= this.gt.dimensions.x || p.y < 0 || p.y >= this.gt.dimensions.y) {
+        } else {
+            
+        }
+        return new HashSet<Piece>();
     }
 
     public Position translatePosition(Position pos, int pNum) {

@@ -2,6 +2,10 @@ package main.ActionTypes;
 
 import java.util.Arrays;
 
+import main.Game;
+import main.MoveReference;
+import main.Piece;
+
 public abstract class Action {
     public enum ActionType {
         SET,
@@ -42,4 +46,6 @@ public abstract class Action {
             return false;
         }
     } 
+
+    public abstract void executeAction(Game game, Piece piece, MoveReference move);
 }

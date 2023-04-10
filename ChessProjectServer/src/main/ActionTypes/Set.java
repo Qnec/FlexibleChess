@@ -1,6 +1,13 @@
 package main.ActionTypes;
 
+import java.util.HashSet;
+
+import main.Game;
+import main.MoveReference;
+import main.Piece;
+import main.Position;
 import main.Variable;
+import main.Variable.VariableScope;
 
 public class Set extends Action{
     enum OperatorType {
@@ -29,5 +36,47 @@ public class Set extends Action{
         
         this.variable = new Variable(parameters[0]);
         this.value = Integer.parseInt(parameters[2]);
+    }
+
+    public void executeAction(Game game, Piece piece, MoveReference moveReference) {
+        Position variablePositionReference = piece.translatePosition(
+            game.translatePosition(
+                moveReference.translatePosition(this.variable.variablePositionReference), piece.getPlayer()
+                )
+            );
+        HashSet<Piece> set = game.getPieces(variablePositionReference);
+        //int value = 0;
+        Variable v = new Variable(VariableScope.Piece, "default", 0);
+        if(this.variable.scope == VariableScope.Game) {
+            //v = game.getVariable(this.variable.variableName);
+            System.out.println("if this triggers bad");
+        } else {
+            if(set.size() != 1) {
+                throw new Error("More than one piece in area specified for variable by position");
+            } else {
+                for(Piece p: set) {
+                    v = p.getVariable(this.variable.variableName);
+                    if(v == null) {
+                        throw new Error("piece does not have such variable");
+                    }
+                }
+            }
+        }
+        
+        v.value = Set.Evaluate(this.operator, v.value, this.value);
+        //System.out.println((this.operator == null) + ", " + v.value + ", " + this.value);
+    }
+
+    public static int Evaluate(OperatorType operator, int value1, int value2) {
+        switch(operator) {
+            case PlusEquals:
+                return value1+value2;
+            case MinusEquals:
+                return value1-value2;
+            case Assignment:
+                return value2;
+            default:
+                throw new Error("Unhandled set operator");
+        }
     }
 }

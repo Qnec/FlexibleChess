@@ -2,7 +2,7 @@ modern_chess_bishop
 [Config]
 [Variables]
 [Moves]
-ITER s1,1 7 ATK f0,0
-ITER s1,-1 7 ATK f0,0
-ITER s-1,-1 7 ATK f0,0
-ITER s-1,1 7 ATK f0,0
+ITER s1,1 7 ACP f0,0 NOTCONT ally ATK f0,0
+ITER s1,-1 7 ACP f0,0 NOTCONT ally ATK f0,0
+ITER s-1,-1 7 ACP f0,0 NOTCONT ally ATK f0,0
+ITER s-1,1 7 ACP f0,0 NOTCONT ally ATK f0,0

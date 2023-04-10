@@ -1,5 +1,7 @@
 package main.RequirementTypes;
 
+import java.util.HashSet;
+
 import main.Area;
 import main.Game;
 import main.Move;
@@ -30,8 +32,21 @@ public class AreaContainsPiece extends Requirement {
             case CONTONLY:
             case NOTCONTONLY:
             for(Position pos : area.getEncompassingPositions()) {
-                for(Piece p : game.getPieces(pos)) {
-                    if(p.pid.equals(this.pieceId)) {
+                pos = piece.translatePosition(
+                    game.translatePosition(
+                        moveReference.translatePosition(pos), piece.getPlayer()
+                        )
+                    );
+                HashSet<Piece> pieces = game.getPieces(pos);
+                if(pieces.size() > 1 && this.pieceId.equals("*")) {
+                    output = true;
+                    break;
+                }
+                for(Piece p : pieces) {
+                    if(
+                        (this.pieceId.equals("op") && p.getPlayer() != piece.getPlayer()) || 
+                        (this.pieceId.equals("self") && p.getPlayer() == piece.getPlayer()) || 
+                        p.pid.equals(this.pieceId)) {
                         output = true;
                     } else {
                         output = false;
@@ -43,15 +58,29 @@ public class AreaContainsPiece extends Requirement {
             case CONT:
             case NOTCONT:
             for(Position pos : area.getEncompassingPositions()) {
-                for(Piece p : game.getPieces(game.translatePosition(pos, piece.getPlayer()))) {
-                    if(p.pid.equals(this.pieceId)) {
+                pos = piece.translatePosition(
+                    game.translatePosition(
+                        moveReference.translatePosition(pos), piece.getPlayer()
+                        )
+                    );
+                HashSet<Piece> pieces = game.getPieces(pos);
+                if(pieces.size() > 1 && this.pieceId.equals("*")) {
+                    output = true;
+                    break;
+                }
+                for(Piece p : pieces) {
+                    if(
+                        (this.pieceId.equals("op") && p.getPlayer() != piece.getPlayer()) || 
+                        (this.pieceId.equals("self") && p.getPlayer() == piece.getPlayer()) || 
+                        p.pid.equals(this.pieceId)) {
                         output = true;
+                        break;
                     }
                 }
             }
             break;
             default:
-            return false;            
+            return false;
         }
         switch(this.type) {
             case NOTCONT:

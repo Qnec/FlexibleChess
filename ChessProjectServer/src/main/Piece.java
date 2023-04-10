@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import main.Position.RelativeTo;
+
 public class Piece {
     private String gid;
     public String pid;
@@ -13,6 +15,7 @@ public class Piece {
     private int playerNum;
     private HashMap<String, Variable> variables = new HashMap<>();
     public final UUID uuid;
+    private int takenBy = -1;
 
     public Piece(String gt, String pt, int pNum, Position p) {
         this.uuid = UUID.randomUUID();
@@ -49,16 +52,38 @@ public class Piece {
             Move move = this.pt.moves[i];
             output.addAll(move.getValidMoveReferences(game, this, i));
         }
+        System.out.println(output.size());
+        System.out.println(output);
         return output;
     }
 
-    public Position translatePosition(Position p) {
-        switch(p.relativeTo) {
+    public Position translatePosition(Position pos) {
+        switch(pos.relativeTo) {
             case START:
-            case FINAL:
+            pos.relativeTo = RelativeTo.GAME;
+            return pos.add(this.p);
             case GAME:
+            return pos;
+            case FINAL:
             default:
-            throw new Error("Unknown position relativeTo type");
+            throw new Error("Unknown or unhandled position relativeTo type");
         }
+    }
+
+    public int getTakenBy() {
+        return this.takenBy;
+    }
+
+    public boolean take(int player) {
+        if(this.takenBy != -1) {
+            this.takenBy = player;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return this.gid + ", " + this.pid + ", " + this.playerNum + ", " + this.p + ", " + this.uuid;
     }
 }

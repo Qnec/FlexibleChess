@@ -17,6 +17,11 @@ public class MoveReference {
         this.moveIndex = moveIndex;
     }
 
+    public void translateSelf(Game game, Piece piece) {
+        this.finish = piece.translatePosition(game.translatePosition(this.translatePosition(this.finish), piece.getPlayer()));
+        this.start = piece.translatePosition(game.translatePosition(this.translatePosition(this.start), piece.getPlayer()));
+    }
+
     public Position translatePosition(Position p) {
         switch(p.relativeTo) {
             case START:
@@ -29,5 +34,11 @@ public class MoveReference {
             default:
             throw new Error("Unknown position relativeTo type");
         }
+    }
+
+
+    @Override
+    public String toString() {
+        return "(" + this.start + ", " + this.finish + ", " + this.moveIndex + ", " + this.pieceUUID + ")";
     }
 }

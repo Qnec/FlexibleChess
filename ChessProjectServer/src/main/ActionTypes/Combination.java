@@ -1,5 +1,8 @@
 package main.ActionTypes;
 
+import main.Game;
+import main.MoveReference;
+import main.Piece;
 import main.Position;
 
 public class Combination extends Action{
@@ -15,5 +18,9 @@ public class Combination extends Action{
         }
         this.initialPosition = new Position(parameters[0]);
         this.finalPosition = new Position(parameters[1]);
+    }
+
+    public void executeAction(Game game, Piece piece, MoveReference move) {
+
     }
 }

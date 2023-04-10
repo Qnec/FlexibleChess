@@ -96,7 +96,9 @@ public class Move {
     public ArrayList<MoveReference> getValidMoveReferences(Game game, Piece piece, int index) {
         ArrayList<MoveReference> output = new ArrayList<MoveReference>();
         for(MoveReference move : this.getPossibleMoveReferences(game, piece, index)) {
-
+            if(this.isMoveValid(game, piece, this, move)) {
+                output.add(move);
+            }
         }
         return output;
     }
@@ -107,6 +109,14 @@ public class Move {
                 return false;
             }
         }
+        moveReference.translateSelf(game, piece);
+        Area thing = new Area(new Position(0,0), game.gt.dimensions);
+        if(!thing.contains(moveReference.finish)) {
+            //System.out.println(thing);
+            //System.out.println(thing.contains(moveReference.finish));
+            //System.out.println(moveReference.finish);
+            return false;
+        }
         return true;
-    } 
+    }
 }

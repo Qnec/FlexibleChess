@@ -24,7 +24,7 @@ public class Range {
     }
 
     public boolean contains(int n) {
-        return (this.min <= n && this.max < n);
+        return (this.min <= n && this.max >= n);
     }
 
     @Override

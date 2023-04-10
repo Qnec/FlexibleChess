@@ -7,6 +7,7 @@ import main.Game;
 import main.Move;
 import main.MoveReference;
 import main.Piece;
+import main.Position;
 import main.Variable;
 import main.Variable.VariableScope;
 
@@ -22,13 +23,12 @@ public class VariableMeetsCondition extends Requirement {
     }
 
     public boolean isMet(Game game, Piece piece, Move move, MoveReference moveReference) {
-        HashSet<Piece> set = game.getPieces(
+        Position variablePositionReference = piece.translatePosition(
             game.translatePosition(
-                piece.translatePosition(
-                    moveReference.translatePosition(this.variable.variablePositionReference)
-                    ), piece.getPlayer()
+                moveReference.translatePosition(this.variable.variablePositionReference), piece.getPlayer()
                 )
             );
+        HashSet<Piece> set = game.getPieces(variablePositionReference);
         //int value = 0;
         Variable v = new Variable(VariableScope.Piece, "default", 0);
         if(this.variable.scope == VariableScope.Game) {
@@ -46,7 +46,7 @@ public class VariableMeetsCondition extends Requirement {
                 }
             }
         }
-        System.out.println((this.operator == null) + ", " + v.value + ", " + this.value);
+        //System.out.println((this.operator == null) + ", " + v.value + ", " + this.value);
         return ConditionOperator.evaluate(this.operator, v.value, this.value);
         //return false;
     }

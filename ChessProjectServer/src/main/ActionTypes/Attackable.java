@@ -1,5 +1,8 @@
 package main.ActionTypes;
 
+import main.Game;
+import main.MoveReference;
+import main.Piece;
 import main.Area;
 
 public class Attackable extends Action{
@@ -15,5 +18,9 @@ public class Attackable extends Action{
         
         this.attackableArea = new Area(parameters[0]);
         this.timePresent = Integer.parseInt(parameters[2]);
+    }
+
+    public void executeAction(Game game, Piece piece, MoveReference move) {
+
     }
 }

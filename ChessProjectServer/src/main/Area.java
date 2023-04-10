@@ -52,6 +52,9 @@ public class Area {
 
     public boolean contains(Position p) {
         //return (this.p.y <= p.y && this.p.y+this.dimensions.y > p.y && this.p.y <= p.y && this.p.y+this.dimensions.y > p.y);
+        //System.out.println(this.x);
+        //System.out.println(p.x);
+        //System.out.println(this.x.contains(p.x));
         return (this.x.contains(p.x) && this.y.contains(p.y));
     }
 
