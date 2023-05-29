@@ -15,10 +15,18 @@ public class Attack extends Action{
     }
 
     public void executeAction(Game game, Piece piece, MoveReference moveReference) {
-        Position translatedPosition = piece.translatePosition(game.translatePosition(moveReference.translatePosition(this.position), piece.getPlayer()));
+        Position translatedPosition = piece.translatePosition(game.translatePosition(moveReference.translatePosition(this.position.getCopy()), piece.getPlayer()));
         HashSet<Piece> pieces = game.getAttackables(translatedPosition);
         for(Piece p : pieces) {
-            p.take(piece.getPlayer());
+            //System.out.println(p);
+            //p.getPlayer()
+            boolean success = p.take(piece.getPlayer());
+            //System.out.println(success);
+            //System.out.println(p.getPieceType().getRoyaltyGroup());
+            if(success && p.getPieceType().getRoyaltyGroup() != -1) {
+                //System.out.println("thing");
+                game.decrementRoyaltyCount(p.getPlayer());
+            }
         }
         game.getPieces(translatedPosition).clear();
     }

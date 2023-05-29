@@ -1,10 +1,15 @@
 package main;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import main.Position.RelativeTo;
 
@@ -24,7 +29,7 @@ public class GameType {
 
     private static HashMap<String, GameType> gameTypes = new HashMap<String, GameType>();
     private HashMap<String, PieceType> pieceTypes = new HashMap<String, PieceType>();
-    private HashMap<String, ArrayList<Area>> pieceStartingPositions = new HashMap<String, ArrayList<Area>>();
+    public HashMap<String, ArrayList<Area>> pieceStartingPositions = new HashMap<String, ArrayList<Area>>();
     public String gameID;
     public Position dimensions;
     public int pCount;
@@ -32,6 +37,10 @@ public class GameType {
     public MoveModificationBehaviorType perSideMoveModificationBehav;
     public RoyaltyBehavior royaltyBehav;
     public WinBehavior winBehav;
+    public BufferedImage background;
+    
+    private HashMap<Integer, Integer> playerColor = new HashMap<>();
+    
     //private 
     public GameType(String gameFolderStr) {
         Path gameFolderPath = Paths.get(gameFolderStr);
@@ -50,6 +59,7 @@ public class GameType {
         //ArrayList<PieceType> pieces = new ArrayList<PieceType>();
         //this.pieceTypes = new HashMap<String, PieceType>();
         for(File file : pieceFileArray) {
+            System.out.println(file.getName());
             PieceType cpt = new PieceType(ConfigFile.parseConfigFile(file));
             System.out.println(cpt);
             this.pieceTypes.put(cpt.getPieceID(), cpt);
@@ -73,6 +83,15 @@ public class GameType {
                             this.nMoves=Integer.parseInt(line[1]);
                         }
                     }
+                    if(line[0].equals("color") && line.length == 3) {
+                        String[] colorValues = line[2].split(",");
+                        int color = Integer.valueOf(colorValues[0])<<16;
+                        color|=(Integer.valueOf(colorValues[1])<<8);
+                        color|=(Integer.valueOf(colorValues[2]));
+                        color|=0xff000000;
+                        //System.out.println(color);
+                        this.playerColor.put(Integer.valueOf(line[1]), color); 
+                    }
                 }
                 break;
                 case "PIECES":
@@ -95,6 +114,12 @@ public class GameType {
                             this.winBehav = WinBehavior.valueOf(line[1]);
                         } else if(line[0].equals("dimensions")) {
                             this.dimensions = new Position(line[1], RelativeTo.GAME);
+                        } else if(line[0].equals("background")) {
+                            try {
+                                this.background = ImageIO.read(new File(line[1]));
+                            } catch (IOException e) {
+                                throw new Error("Failed to read game background image from file");
+                            }
                         }
                     }
                 }
@@ -103,16 +128,20 @@ public class GameType {
                 for(int i = 0; i < section.length; i++) {
                     //System.out.println(section[i]);
                     String[] line = section[i].split(" ");
-                    if(line.length == 2) {
+                    if(line.length >= 2) {
                         //System.out.println(line[1]);
-                        if(!this.pieceStartingPositions.containsKey(line[0])) {
-                            this.pieceStartingPositions.put(line[0], new ArrayList<Area>());
+                        String pieceVariableString = line[0];
+                        for(int string = 2; string  < line.length; string ++) {
+                            pieceVariableString+=(" " + line[string]);
+                        }
+                        if(!this.pieceStartingPositions.containsKey(pieceVariableString)) {
+                            this.pieceStartingPositions.put(pieceVariableString, new ArrayList<Area>());
                         }
                         //System.out.println(line[0]);
                         Area a = new Area(line[1]);
                         //System.out.println(line[1]);
                         //System.out.println(a);
-                        this.pieceStartingPositions.get(line[0]).add(a);
+                        this.pieceStartingPositions.get(pieceVariableString).add(a);
                     }
                 }
                 break;
@@ -126,6 +155,10 @@ public class GameType {
     @Override
     public String toString() {
         return this.dimensions + ", " + this.pieceStartingPositions.size() + ", " + this.pieceTypes.size() + ", " + this.gameID + ", " + this.nMoves + ", " + this.pCount + ", " + this.perSideMoveModificationBehav + ", " + this.royaltyBehav + ", " + this.winBehav;
+    }
+
+    public int getPlayerColor(int player) {
+        return this.playerColor.get(player);
     }
 
     public static GameType getGame(String gid) {

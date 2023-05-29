@@ -17,17 +17,34 @@ public class MoveReference {
         this.moveIndex = moveIndex;
     }
 
-    public void translateSelf(Game game, Piece piece) {
-        this.finish = piece.translatePosition(game.translatePosition(this.translatePosition(this.finish), piece.getPlayer()));
-        this.start = piece.translatePosition(game.translatePosition(this.translatePosition(this.start), piece.getPlayer()));
+    public MoveReference getTranslatedSelf(Game game, Piece piece) {
+        Position finish = piece.translatePosition(game.translatePosition(this.translatePosition(this.finish), piece.getPlayer()));
+        Position start = piece.translatePosition(game.translatePosition(this.translatePosition(this.start), piece.getPlayer()));
+        MoveReference output = new MoveReference(start, finish, this.pieceUUID, this.moveIndex);
+        return output;
+    }
+
+    public MoveReference untranslateSelf(Game game, Piece p) {
+        Position finish = this.finish.subtract(p.getPosition());
+        finish.relativeTo = RelativeTo.START;
+        finish = game.translatePosition(finish, p.getPlayer());
+        Position start = this.start.subtract(p.getPosition());
+        start.relativeTo = RelativeTo.START;
+        start = game.translatePosition(start, p.getPlayer());
+        MoveReference output = new MoveReference(start, finish, this.pieceUUID, this.moveIndex);
+        return output;
     }
 
     public Position translatePosition(Position p) {
+        /*if(this.start.relativeTo != RelativeTo.GAME || this.finish.relativeTo != RelativeTo.GAME) {
+            throw new Error("move reference positions not translated prior to use")
+        }*/
         switch(p.relativeTo) {
             case START:
+            p.relativeTo = this.start.relativeTo;
             return p.add(this.start);
             case FINAL:
-            p.relativeTo = RelativeTo.START;
+            p.relativeTo = this.finish.relativeTo;
             return p.add(this.finish);
             case GAME:
             return p;

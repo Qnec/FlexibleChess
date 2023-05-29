@@ -20,7 +20,19 @@ public class Combination extends Action{
         this.finalPosition = new Position(parameters[1]);
     }
 
-    public void executeAction(Game game, Piece piece, MoveReference move) {
-
+    public void executeAction(Game game, Piece piece, MoveReference moveReference) {
+        Position initialPositionTranslated = piece.translatePosition(
+            game.translatePosition(
+                moveReference.translatePosition(this.initialPosition.getCopy()), piece.getPlayer()
+                )
+            );
+        Position finalPositionTranslated = piece.translatePosition(
+            game.translatePosition(
+                moveReference.translatePosition(this.finalPosition.getCopy()), piece.getPlayer()
+                )
+            );
+        for(Piece p : game.getPieces(initialPositionTranslated)) {
+            game.movePiece(p, finalPositionTranslated);
+        }
     }
 }

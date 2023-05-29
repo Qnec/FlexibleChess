@@ -1,7 +1,5 @@
 package main;
 
-import main.Position.RelativeTo;
-
 public class Variable {
     public enum VariableScope {
         Game,
@@ -26,16 +24,21 @@ public class Variable {
         String[] variableParts = parameters.split("\\.");
         //System.out.println(variableParts.length);
         //for(int i = 0; i < variableParts.length; i++) {System.out.println("thing " + variableParts[i]);}
+        //System.out.println(parameters);
+        
         if(variableParts[0].length() > 1) {
             this.scope = VariableScope.Piece;
             this.variablePositionReference = new Position(variableParts[0]);
+            
         } else {
-            this.variablePositionReference = new Position(0, 0, RelativeTo.START);
             this.scope = Variable.getVariableScope(variableParts[0]);
+            //this.variablePositionReference = new Position(0, 0, RelativeTo.START);
         }
         
 
         this.variableName = variableParts[1];
+        //System.out.println(this.variablePositionReference);
+        //System.out.println(this);
     }
 
     public static Variable PieceVariableInitialize(String[] parameters) {
@@ -54,5 +57,10 @@ public class Variable {
             default:
                 throw new Error("Unsupported variable scope");
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.scope.name() + ", " + this.variableName + ", at " + (this.variablePositionReference == null ? "null" : "" + this.variablePositionReference);
     }
 }

@@ -2,6 +2,7 @@ package main.ActionTypes;
 
 import java.util.HashSet;
 
+import main.ConditionOperator;
 import main.Game;
 import main.MoveReference;
 import main.Piece;
@@ -39,14 +40,27 @@ public class Set extends Action{
     }
 
     public void executeAction(Game game, Piece piece, MoveReference moveReference) {
+        //System.out.println("thing5");
+        //System.out.println(this.variable);
+        if(this.variable.variablePositionReference == null && this.variable.scope == VariableScope.Piece) {
+            //System.out.println("thing4.1");
+            Variable v = piece.getVariable(this.variable.variableName);
+            if(v != null) {
+                v.value = Set.evaluate(this.operator, v.value, this.value);
+                return;
+            }
+        }
         Position variablePositionReference = piece.translatePosition(
             game.translatePosition(
-                moveReference.translatePosition(this.variable.variablePositionReference), piece.getPlayer()
+                moveReference.translatePosition(this.variable.variablePositionReference.getCopy()), piece.getPlayer()
                 )
             );
+        //System.out.println(moveReference.start);
+        //System.out.println(variablePositionReference);
         HashSet<Piece> set = game.getPieces(variablePositionReference);
         //int value = 0;
         Variable v = new Variable(VariableScope.Piece, "default", 0);
+        Piece variablePiece = null;
         if(this.variable.scope == VariableScope.Game) {
             //v = game.getVariable(this.variable.variableName);
             System.out.println("if this triggers bad");
@@ -55,6 +69,7 @@ public class Set extends Action{
                 throw new Error("More than one piece in area specified for variable by position");
             } else {
                 for(Piece p: set) {
+                    variablePiece = p;
                     v = p.getVariable(this.variable.variableName);
                     if(v == null) {
                         throw new Error("piece does not have such variable");
@@ -63,11 +78,12 @@ public class Set extends Action{
             }
         }
         
-        v.value = Set.Evaluate(this.operator, v.value, this.value);
+        //System.out.println(variablePiece.getVariable(this.variable.variableName));
+        v.value = Set.evaluate(this.operator, v.value, this.value);
         //System.out.println((this.operator == null) + ", " + v.value + ", " + this.value);
     }
 
-    public static int Evaluate(OperatorType operator, int value1, int value2) {
+    public static int evaluate(OperatorType operator, int value1, int value2) {
         switch(operator) {
             case PlusEquals:
                 return value1+value2;

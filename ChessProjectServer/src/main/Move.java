@@ -69,6 +69,21 @@ public class Move {
             }*/
             section.add(parameter);
         }
+        switch(currentSectionType) {
+            case MOVEMENT:
+            movementsList.add(Movement.parseMovement(section.toArray(new String[section.size()])));
+            break;
+            case REQUIREMENT:
+            requirementsList.add(Requirement.parseRequirement(section.toArray(new String[section.size()])));
+            break;
+            case ACTION:
+            actionsList.add(Action.parseAction(section.toArray(new String[section.size()])));
+            break;
+            case UNASSIGNED:
+            break;
+            default:
+            break;
+        }
         //System.out.println(movementsList.size());
         //System.out.println(requirementsList.size());
         //System.out.println(actionsList.size());
@@ -96,27 +111,53 @@ public class Move {
     public ArrayList<MoveReference> getValidMoveReferences(Game game, Piece piece, int index) {
         ArrayList<MoveReference> output = new ArrayList<MoveReference>();
         for(MoveReference move : this.getPossibleMoveReferences(game, piece, index)) {
+            //System.out.println(game);
+            //System.out.println(piece);
+            //System.out.println(this);
+            //System.out.println(move);
+            //System.out.println(this.isMoveValid(game, piece, this, move));
+            //System.out.println(this.isMoveValid(game, piece, this, move));
+            //move.translateSelf(game, piece);
             if(this.isMoveValid(game, piece, this, move)) {
-                output.add(move);
+                output.add(move.getTranslatedSelf(game, piece));
             }
         }
         return output;
     }
 
     public boolean isMoveValid(Game game, Piece piece, Move move, MoveReference moveReference) {
+        //System.out.println("thing2");
+        //System.out.println(moveReference);
+        MoveReference translated = moveReference.getTranslatedSelf(game, piece);
+        //System.out.println(moveReference);
+
         for(Requirement requirement : this.requirements) {
+            //System.out.println(requirement);
             if(!requirement.isMet(game, piece, move, moveReference)) {
+                //System.out.println("failed");
                 return false;
             }
         }
-        moveReference.translateSelf(game, piece);
-        Area thing = new Area(new Position(0,0), game.gt.dimensions);
-        if(!thing.contains(moveReference.finish)) {
+        Area gameArea = new Area(new Position(0,0), game.gt.dimensions);
+        if(!gameArea.contains(translated.finish)) {
             //System.out.println(thing);
             //System.out.println(thing.contains(moveReference.finish));
             //System.out.println(moveReference.finish);
             return false;
         }
+        return true;
+    }
+
+    public boolean executeMove(Game game, Piece piece, Move move, MoveReference moveReference) {
+        //System.out.println("thing7");
+        //System.out.println(this.actions.length);
+        for(Action action : this.actions) {
+            //System.out.println(action);
+            action.executeAction(game, piece, moveReference);
+        }
+        //System.out.println(game);
+        game.movePiece(piece, moveReference.getTranslatedSelf(game, piece).finish);
+        //System.out.println(game);
         return true;
     }
 }

@@ -1,0 +1,16 @@
+modern_xiangqi_advisor
+[Config]
+icon /home/jason/Documents/Projects/FlexibleChess/modern_chess/modern_chess_queen.png
+[Variables]
+positionY = 0
+positionX = 0
+[Moves]
+JUMP s1,1 ACP f0,0 NOTCONT ally ATK f0,0 VMC s.positionX <= 4 VMC s.positionY < 2 SET s.positionY += 1 SET s.positionX += 1
+JUMP s-1,1 ACP f0,0 NOTCONT ally ATK f0,0 VMC s.positionX >= 4 VMC s.positionY < 2 SET s.positionY += 1 SET s.positionX -= 1
+JUMP s1,-1 ACP f0,0 NOTCONT ally ATK f0,0 VMC s.positionX <= 4 SET s.positionY -= 1 SET s.positionX += 1
+JUMP s-1,-1 ACP f0,0 NOTCONT ally ATK f0,0 VMC s.positionX >= 4 SET s.positionY -= 1 SET s.positionX -= 1
+#JUMP s1,1 ACP f0,0 NOTCONT ally ATK f0,0 VMC s.positionY < 2 VMC s.positionX < 4 SET s.positionY += 1 SET s.positionX += 1
+#JUMP s-1,1 ACP f0,0 NOTCONT ally ATK f0,0 VMC s.positionY < 2 VMC s.positionX > 4 SET s.positionY += 1 SET s.positionX -= 1
+#JUMP s1,-1 ACP f0,0 NOTCONT ally ATK f0,0 VMC s.positionY > 2 VMC s.positionX < 4 SET s.positionY -= 1 SET s.positionX += 1
+#JUMP s-1,-1 ACP f0,0 NOTCONT ally ATK f0,0 VMC s.positionY > 2 VMC s.positionX > 4 SET s.positionY -= 1 SET s.positionX -= 1
+#restrict moves to area

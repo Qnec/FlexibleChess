@@ -1,0 +1,13 @@
+modern_xiangqi_horse
+[Config]
+icon /home/jason/Documents/Projects/FlexibleChess/modern_chess/modern_chess_knight.png
+[Variables]
+[Moves]
+JUMP s-1,2 ACP s0,1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0
+JUMP s1,2 ACP s0,1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0
+JUMP s2,1 ACP s1,0 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0
+JUMP s2,-1 ACP s1,0 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0
+JUMP s1,-2 ACP s0,-1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0
+JUMP s-1,-2 ACP s0,-1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0
+JUMP s-2,-1 ACP s-1,0 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0
+JUMP s-2,1 ACP s-1,0 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0

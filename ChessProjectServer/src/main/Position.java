@@ -1,6 +1,6 @@
 package main;
 public class Position {
-    enum RelativeTo {
+    public enum RelativeTo {
         START,
         FINAL,
         GAME
@@ -33,6 +33,7 @@ public class Position {
     }
 
     public Position(String p) {
+        //System.out.println(p);
         this.relativeTo = Position.getRelativeTo(p.substring(0,1));
         String[] ps = p.substring(1).split(",");
         this.x = Integer.parseInt(ps[0]);
@@ -50,6 +51,10 @@ public class Position {
             default:
             throw new Error("Unsupported relative position");
         }
+    }
+
+    public Position getCopy() {
+        return new Position(this.x, this.y, this.relativeTo);
     }
 
     @Override
@@ -91,6 +96,28 @@ public class Position {
 
     public Position scaleAbout(Position other, double factor) {
         return this.subtract(other).scale(factor).add(other);
+    }
+
+    @Override
+    public boolean equals(Object lhs) {
+        if(this == lhs) {
+            return true;
+        }
+        if(!(lhs instanceof Position)) {
+            return false;
+        }
+        Position other = (Position)lhs;
+        
+        return (this.x == other.x) && (this.y == other.y) && (this.relativeTo.compareTo(other.relativeTo) == 0);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 31;
+        result = 37*result+this.x;
+        result = 37*result+this.y;
+        result = 37*result+(this.relativeTo == null ? 0 : this.relativeTo.hashCode());
+        return result;
     }
 }
 

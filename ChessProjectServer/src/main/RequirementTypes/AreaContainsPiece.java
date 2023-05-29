@@ -14,7 +14,9 @@ public class AreaContainsPiece extends Requirement {
         CONT,
         CONTONLY,
         NOTCONT,
-        NOTCONTONLY
+        NOTCONTONLY,
+        CONTONE,
+        NOTCONTONE
     }
     private Area area;
     private ContainsType type;
@@ -28,10 +30,13 @@ public class AreaContainsPiece extends Requirement {
 
     public boolean isMet(Game game, Piece piece, Move move, MoveReference moveReference) {
         boolean output = false;
+        //System.out.println("thing3");
+        //System.out.println(moveReference);
+        //System.out.println(this.area);
         switch(this.type) {
             case CONTONLY:
             case NOTCONTONLY:
-            for(Position pos : area.getEncompassingPositions()) {
+            for(Position pos : this.area.getEncompassingPositions()) {
                 pos = piece.translatePosition(
                     game.translatePosition(
                         moveReference.translatePosition(pos), piece.getPlayer()
@@ -45,7 +50,7 @@ public class AreaContainsPiece extends Requirement {
                 for(Piece p : pieces) {
                     if(
                         (this.pieceId.equals("op") && p.getPlayer() != piece.getPlayer()) || 
-                        (this.pieceId.equals("self") && p.getPlayer() == piece.getPlayer()) || 
+                        (this.pieceId.equals("ally") && p.getPlayer() == piece.getPlayer()) || 
                         p.pid.equals(this.pieceId)) {
                         output = true;
                     } else {
@@ -55,9 +60,10 @@ public class AreaContainsPiece extends Requirement {
                 }
             }
             break;
-            case CONT:
-            case NOTCONT:
-            for(Position pos : area.getEncompassingPositions()) {
+            case CONTONE:
+            case NOTCONTONE:
+            int matches = 0;
+            for(Position pos : this.area.getEncompassingPositions()) {
                 pos = piece.translatePosition(
                     game.translatePosition(
                         moveReference.translatePosition(pos), piece.getPlayer()
@@ -65,13 +71,43 @@ public class AreaContainsPiece extends Requirement {
                     );
                 HashSet<Piece> pieces = game.getPieces(pos);
                 if(pieces.size() > 1 && this.pieceId.equals("*")) {
-                    output = true;
+                    output = false;
                     break;
                 }
                 for(Piece p : pieces) {
                     if(
                         (this.pieceId.equals("op") && p.getPlayer() != piece.getPlayer()) || 
-                        (this.pieceId.equals("self") && p.getPlayer() == piece.getPlayer()) || 
+                        (this.pieceId.equals("ally") && p.getPlayer() == piece.getPlayer()) || 
+                        (this.pieceId.equals("*")) ||
+                        p.pid.equals(this.pieceId)) {
+                        matches+=1;
+                    }
+                }
+            }
+            output = (matches==1);
+            break;
+            case CONT:
+            case NOTCONT:
+            for(Position pos : this.area.getEncompassingPositions()) {
+                //System.out.println("thing10");
+                //System.out.println(this.area);
+                //System.out.println(pos);
+                pos = piece.translatePosition(
+                    game.translatePosition(
+                        moveReference.translatePosition(pos), piece.getPlayer()
+                        )
+                    );
+                //System.out.println(pos);
+                HashSet<Piece> pieces = game.getPieces(pos);
+                if(pieces.size() >= 1 && this.pieceId.equals("*")) {
+                    output = true;
+                    //System.out.println(output);
+                    break;
+                }
+                for(Piece p : pieces) {
+                    if(
+                        (this.pieceId.equals("op") && p.getPlayer() != piece.getPlayer()) || 
+                        (this.pieceId.equals("ally") && p.getPlayer() == piece.getPlayer()) || 
                         p.pid.equals(this.pieceId)) {
                         output = true;
                         break;
@@ -89,6 +125,7 @@ public class AreaContainsPiece extends Requirement {
             default:
             break;
         }
+        //System.out.println(output);
         return output;
     }
 }

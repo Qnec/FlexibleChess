@@ -44,7 +44,7 @@ public class Area {
         ArrayList<Position> positions = new ArrayList<Position>();
         for(int x = this.x.getMin(); x <= this.x.getMax(); x++) {
             for(int y = this.y.getMin(); y <= this.y.getMax(); y++) {
-                positions.add(new Position(x,y));
+                positions.add(new Position(x,y, this.relativeTo));
             }
         }
         return positions;
@@ -61,6 +61,6 @@ public class Area {
     @Override
     public String toString() {
         //return "from " + this.p + " to " + this.p.add(this.dimensions);
-        return "x " + this.x + " and y "+ this.y;
+        return "x " + this.x + " and y " + this.y + " relative to " + this.relativeTo.name();
     }
 }

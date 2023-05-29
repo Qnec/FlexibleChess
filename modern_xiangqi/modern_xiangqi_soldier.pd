@@ -1,0 +1,9 @@
+modern_xiangqi_soldier
+[Config]
+icon /home/jason/Documents/Projects/FlexibleChess/modern_chess/modern_chess_pawn.png
+[Variables]
+movesForward = 0
+[Moves]
+JUMP s0,1 ACP f0,0 NOTCONT ally ATK f0,0 SET s.movesForward += 1
+JUMP s1,0 ACP f0,0 NOTCONT ally VMC s.movesForward > 1 ATK f0,0
+JUMP s-1,0 ACP f0,0 NOTCONT ally VMC s.movesForward > 1 ATK f0,0
