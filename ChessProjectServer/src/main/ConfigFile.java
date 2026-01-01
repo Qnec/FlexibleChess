@@ -11,8 +11,10 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class ConfigFile {
+    public final Path filePath;
     public HashMap<String, String[]> configuration = new HashMap<String, String[]>();
-    public ConfigFile(String[] contents) {
+    public ConfigFile(String[] contents, Path path) {
+        filePath = path;
         HashMap<String, ArrayList<String>> configurationArray = new HashMap<String, ArrayList<String>>();
         String currentSection = "";
         for(int i = 0; i < contents.length; i++) {
@@ -54,6 +56,6 @@ public class ConfigFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ConfigFile(lines);
+        return new ConfigFile(lines, path);
     }
 }

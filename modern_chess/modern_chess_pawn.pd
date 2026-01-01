@@ -1,7 +1,7 @@
 modern_chess_pawn
 [Config]
 promote g[0,7],7 modern_chess_knight modern_chess_bishop modern_chess_rook modern_chess_queen
-icon /home/jason/Documents/Projects/FlexibleChess/modern_chess/modern_chess_pawn.png
+icon modern_chess_pawn.png
 [Variables]
 dashed = 0
 moves = 0

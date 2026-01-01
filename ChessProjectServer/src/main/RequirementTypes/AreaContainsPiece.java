@@ -47,7 +47,10 @@ public class AreaContainsPiece extends Requirement {
                     output = true;
                     break;
                 }
+                //System.out.println("printing pieces");
                 for(Piece p : pieces) {
+                    //System.out.println(p);
+                    //System.out.println(p.pid);
                     if(
                         (this.pieceId.equals("op") && p.getPlayer() != piece.getPlayer()) || 
                         (this.pieceId.equals("ally") && p.getPlayer() == piece.getPlayer()) || 
@@ -120,6 +123,7 @@ public class AreaContainsPiece extends Requirement {
         }
         switch(this.type) {
             case NOTCONT:
+            case NOTCONTONE:
             case NOTCONTONLY:
             output = !output;
             default:
@@ -127,5 +131,9 @@ public class AreaContainsPiece extends Requirement {
         }
         //System.out.println(output);
         return output;
+    }
+
+    public String toString() {
+        return "(" + this.area + ", " + this.type + ", " + this.pieceId + ")";
     }
 }

@@ -1,7 +1,7 @@
 modern_chess_king
 [Config]
 royalty 0
-icon /home/jason/Documents/Projects/FlexibleChess/modern_chess/modern_chess_king.png
+icon modern_chess_king.png
 [Variables]
 moves = 0
 [Moves]
@@ -13,5 +13,5 @@ JUMP s0,1 ACP f0,0 NOTCONT ally ATK f0,0 SET s.moves += 1
 JUMP s1,0 ACP f0,0 NOTCONT ally ATK f0,0 SET s.moves += 1
 JUMP s0,-1 ACP f0,0 NOTCONT ally ATK f0,0 SET s.moves += 1
 JUMP s-1,0 ACP f0,0 NOTCONT ally ATK f0,0 SET s.moves += 1
-JUMP s2,0 ACP s0,0 CONTONLY modern_chess_king ACP s[1,2],0 NOTCONT * ACP s3,0 CONTONLY modern_chess_rook ACP s3,0 CONTONLY ally VMC s.moves == 0 VMC s3,0.moves == 0 SET s.moves += 1 SET s3,0.moves += 1 COMBI s3,0 s1,0 ATKBL s[0,3],0 for 1
-JUMP s-2,0 ACP s0,0 CONTONLY modern_chess_king ACP s[-2,-1],0 NOTCONT * ACP s-4,0 CONTONLY modern_chess_rook ACP s-4,0 CONTONLY ally VMC s.moves == 0 VMC s-4,0.moves == 0 SET s.moves += 1 SET s-4,0.moves += 1 COMBI s-4,0 s-1,0 ATKBL s[-4,0],0 for 1
+JUMP s2,0 ACP s0,0 CONTONLY modern_chess_king ACP s[1,3],0 NOTCONT * ACP s4,0 CONTONLY modern_chess_rook ACP s4,0 CONTONLY ally VMC s.moves == 0 VMC s4,0.moves == 0 SET s.moves += 1 SET s4,0.moves += 1 COMBI s4,0 s1,0 ATKBL s[0,4],0 for 1
+JUMP s-2,0 ACP s0,0 CONTONLY modern_chess_king ACP s[-2,-1],0 NOTCONT * ACP s-3,0 CONTONLY modern_chess_rook ACP s-3,0 CONTONLY ally VMC s.moves == 0 VMC s-3,0.moves == 0 SET s.moves += 1 SET s-3,0.moves += 1 COMBI s-3,0 s-1,0 ATKBL s[-3,0],0 for 1

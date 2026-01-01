@@ -116,7 +116,7 @@ public class GameType {
                             this.dimensions = new Position(line[1], RelativeTo.GAME);
                         } else if(line[0].equals("background")) {
                             try {
-                                this.background = ImageIO.read(new File(line[1]));
+                                this.background = ImageIO.read(new File(Paths.get(gameFolderStr).toString()+"/"+line[1]));
                             } catch (IOException e) {
                                 throw new Error("Failed to read game background image from file");
                             }

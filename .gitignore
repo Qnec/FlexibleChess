@@ -1,5 +1,5 @@
-/ChessProjectServer/bin
+ChessProjectServer/bin/*
+**/*.swp
 
-
-/listFiles.sh
-/printFiles.sh
+listFiles.sh
+printFiles.sh

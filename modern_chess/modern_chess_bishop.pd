@@ -1,6 +1,6 @@
 modern_chess_bishop
 [Config]
-icon /home/jason/Documents/Projects/FlexibleChess/modern_chess/modern_chess_bishop.png
+icon modern_chess_bishop.png
 [Variables]
 [Moves]
 JUMP s1,1 ACP f0,0 NOTCONT ally ATK f0,0

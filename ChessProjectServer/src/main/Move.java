@@ -111,6 +111,7 @@ public class Move {
     public ArrayList<MoveReference> getValidMoveReferences(Game game, Piece piece, int index) {
         ArrayList<MoveReference> output = new ArrayList<MoveReference>();
         for(MoveReference move : this.getPossibleMoveReferences(game, piece, index)) {
+            //System.out.println("debug statement for which moves are invalid.");
             //System.out.println(game);
             //System.out.println(piece);
             //System.out.println(this);

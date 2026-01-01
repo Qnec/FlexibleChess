@@ -1,6 +1,6 @@
 modern_chess_rook
 [Config]
-icon /home/jason/Documents/Projects/FlexibleChess/modern_chess/modern_chess_rook.png
+icon modern_chess_rook.png
 [Variables]
 moves = 0
 [Moves]

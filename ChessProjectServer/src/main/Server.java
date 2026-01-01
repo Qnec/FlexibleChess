@@ -10,9 +10,9 @@ public class Server {
     //static JPanel layer2 = new JPanel();
     //static Dimension dimensions = new Dimension(1000, 1000);
     public static void main(String[] args) {
-        new GameType("/home/jason/Documents/Projects/FlexibleChess/modern_chess");
-        new GameType("/home/jason/Documents/Projects/FlexibleChess/modern_xiangqi");
-        frame = new ChessInterfaceFrame("modern_xiangqi");
+        //for(String s : args) {System.out.println(s);} //I was debugging argv because I didn't realize java discarded argv[0]
+        new GameType(args[0]);
+        frame = new ChessInterfaceFrame("modern_chess");
         //System.out.println(new Position(5, 7));
         //System.out.println(new Range(5, 7));
         //System.out.println(new Range(7, 5));
