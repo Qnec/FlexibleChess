@@ -1,9 +1,10 @@
 modern_xiangqi_elephant
 [Config]
-icon /home/jason/Documents/Projects/FlexibleChess/modern_chess/modern_chess_bishop.png
+icon modern_chess_bishop.png
 [Variables]
+positionY = 0
 [Moves]
-JUMP s2,2 ACP s1,1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0 
-JUMP s-2,2 ACP s-1,1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0 
-JUMP s2,-2 ACP s1,-1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0 
-JUMP s-2,-2 ACP s-1,-1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0 
+JUMP s2,2 ACP s1,1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0 VMC s.positionY < 4 SET s.positionY += 2
+JUMP s-2,2 ACP s-1,1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0 VMC s.positionY < 4 SET s.positionY += 2
+JUMP s2,-2 ACP s1,-1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0 SET s.positionY -= 2
+JUMP s-2,-2 ACP s-1,-1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0 SET s.positionY -= 2

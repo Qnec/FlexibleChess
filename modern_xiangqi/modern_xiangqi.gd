@@ -7,7 +7,7 @@ color 1 0,0,0
 [Pieces]
 perSideMoveModification FLIP
 [Game]
-background /home/jason/Documents/Projects/FlexibleChess/modern_xiangqi/xiangqiBoard.png
+background xiangqiBoard.png
 dimensions 9,10
 royalty CHECK
 win EXTINCTION
@@ -27,4 +27,4 @@ modern_xiangqi_elephant g2,0
 modern_xiangqi_elephant g6,0
 modern_xiangqi_advisor g3,0 positionX 3
 modern_xiangqi_advisor g5,0 positionX 5
-modern_xiangqi_general g4,0
+modern_xiangqi_general g4,0 positionX 4

@@ -1,6 +1,6 @@
 modern_xiangqi_advisor
 [Config]
-icon /home/jason/Documents/Projects/FlexibleChess/modern_chess/modern_chess_queen.png
+icon modern_chess_queen.png
 [Variables]
 positionY = 0
 positionX = 0

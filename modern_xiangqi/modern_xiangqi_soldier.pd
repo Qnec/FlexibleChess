@@ -1,6 +1,6 @@
 modern_xiangqi_soldier
 [Config]
-icon /home/jason/Documents/Projects/FlexibleChess/modern_chess/modern_chess_pawn.png
+icon modern_chess_pawn.png
 [Variables]
 movesForward = 0
 [Moves]

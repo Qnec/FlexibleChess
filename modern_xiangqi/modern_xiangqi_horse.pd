@@ -1,6 +1,6 @@
 modern_xiangqi_horse
 [Config]
-icon /home/jason/Documents/Projects/FlexibleChess/modern_chess/modern_chess_knight.png
+icon modern_chess_knight.png
 [Variables]
 [Moves]
 JUMP s-1,2 ACP s0,1 NOTCONT * ACP f0,0 NOTCONT ally ATK f0,0
