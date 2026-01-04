@@ -37,7 +37,7 @@ public class PieceType {
                         //System.out.println("promotion");
                     } else if(line[0].equals("icon")) {
                         try {
-							System.out.println(conf.filePath.getParent().toString()+line[1]);
+                            System.out.println(conf.filePath.getParent().toString()+"/"+line[1]);
                             this.pieceIconTemplate = ImageIO.read(new File(conf.filePath.getParent().toString()+"/"+line[1]));
                         } catch (IOException e) {
                             throw new Error("Failed to read piece icon image from file");

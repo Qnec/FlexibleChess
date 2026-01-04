@@ -41,7 +41,6 @@ public class GameType {
     
     private HashMap<Integer, Integer> playerColor = new HashMap<>();
     
-    //private 
     public GameType(String gameFolderStr) {
         Path gameFolderPath = Paths.get(gameFolderStr);
         File gameFolder = gameFolderPath.toFile();
