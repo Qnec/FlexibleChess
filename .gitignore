@@ -1,5 +1,9 @@
 ChessProjectServer/bin/*
 **/*.swp
-
+**/*.kra
+**/*.kra~
+**/*.png~
 listFiles.sh
 printFiles.sh
+checkerboardPattern.png
+checkerboardPattern.png~
